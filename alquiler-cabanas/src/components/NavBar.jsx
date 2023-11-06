@@ -1,23 +1,41 @@
+import { Nav, NavItem } from 'reactstrap';
 import house from './assets/house.svg'
 import CartWidget from './CartWidget'
-const aStyles = {paddingRight:20,textDecoration:'none', color:"black",textAlign:"center",};
+import React from "react";
+import { NavLink } from "react-router-dom";
+
 const imgStyles = {width:70,height:70}
+
 const NavBar = () => {
     return(
-        <nav style={{background:{}, display: 'flex', position:top}}>
-            <div>
+        <Nav justified className='lista'>
+            <NavItem>
+                <NavLink active href="*">
                 <img style={imgStyles} src={house} alt="house-img" />
+                </NavLink>
+            </NavItem>
+            <div>
+                <h3 style={{display:'flex', position:'center'}}>Alquiler de Cabañas</h3>
             </div>
-            <h3 style={{display:'flex'}}>Alquiler de Cabañas</h3>
-            <div className= 'lista' style={{display:'flex'}}>
-                <li style={{listStyle: 'none',}}>
-                    <a style={aStyles} href="">Contactos</a>
-                    <a style={aStyles} href="">Precios</a>
-                    <a style={aStyles} href="">Reservas</a>
-                    <div style={imgStyles}><CartWidget/></div>
-                </li>
+
+            <NavItem>
+                <NavLink to='/' className='Link'>
+                    <h4>
+                        Home
+                    </h4>
+                </NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink>
+                    <CartWidget/>
+                </NavLink>
+            </NavItem>
+            <div className='categorias'>
+                 Filtrar por : 
+                 <NavLink to='/item/1' className={'Link'}> <button>Para Familias </button>  </NavLink>
+                 <NavLink to='/item/2' className={'Link'}> <button>Para Parejas </button>  </NavLink>
             </div>
-        </nav>
+        </Nav>
     )
 }
 export default NavBar
