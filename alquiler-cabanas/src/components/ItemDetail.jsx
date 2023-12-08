@@ -1,31 +1,49 @@
-import {Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Container, Row } from 'reactstrap';
+import { useState } from 'react';
+import {Card, CardBody, CardSubtitle, CardText, CardTitle } from 'reactstrap';
+import ItemCount from './ItemCount';
+import { Link } from 'react-router-dom';
+import { useCartContext } from '../context/CartContext';
 
-const ItemDetail = ({ nombre, img, precio, disponibilidad, categoria}) => {
+
+
+export const ItemDetail = ({ data }) => {
+    const [goToCart, setGoToCart] = useState(false);
+
+    const {addProduct} = useCartContext();
+
+    const onAdd = (quantity) => {
+        setGoToCart(true);
+        addProduct(data, quantity);
+    }
     return(
         <div className='background'>
             <Card style={{
             width:'30rem'
             }}>
                 <img
-                alt={nombre}
-                src={img}/>
+                alt={data.nombre}
+                src={data.img}/>
                 <CardBody >
                     <CardTitle tag="h5">
-                        {nombre}
+                        {data.nombre}
                     </CardTitle>
                     <CardSubtitle className="md-2 text-muted" tag="h6">
-                        Precio: ${precio}
+                        Precio: ${data.price}
                     </CardSubtitle>
-                    <CardText style={{marginBottom:0}}>
-                        Estado: {disponibilidad}
+                    <CardText style={{marginBottom:0}}> 
+                        Categoria: {data.categoria}
                     </CardText>
-                    <CardText> 
-                        Categoria: {categoria}
+                    <CardText> Descripcion: {data.descripcion} </CardText>
+                    <CardText className='footer'>
+                        {
+                            goToCart
+                            ? <Link to='/cart'>Terminar Compra</Link>
+                            : <ItemCount initial={1} stock={6} onAdd={onAdd}/>
+                        }
                     </CardText>
                 </CardBody>
             </Card>
         </div>
-
     )
 }
         

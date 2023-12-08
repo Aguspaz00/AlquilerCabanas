@@ -1,41 +1,44 @@
-import { Nav, NavItem } from 'reactstrap';
 import house from './assets/house.svg'
 import CartWidget from './CartWidget'
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 
-const imgStyles = {width:70,height:70}
+import Button from 'react-bootstrap/Button';
 
-const NavBar = () => {
-    return(
-        <Nav justified className='lista'>
-            <NavItem>
-                <NavLink active href="*">
-                <img style={imgStyles} src={house} alt="house-img" />
-                </NavLink>
-            </NavItem>
-            <div>
-                <h3 style={{display:'flex', position:'center'}}>Alquiler de Cabañas</h3>
-            </div>
+function Links () {
+  return (
+    <Navbar style={{marginRight:"0", marginLeft:"0"}}>
+      <Container style={{margin:"0", maxWidth:"100%"}}>
+        <NavLink to= '/' className='Link'>
+            <img
+              alt=""
+              src={house}
+              width="50"
+              height="50"
+            />{' '}
+            Alquiler de Cabañas
+        </NavLink>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+        <Button variant="dark" style={{marginRight:"10px"}}>
+        <NavLink to='/' className='Link1'>Inicio</NavLink></Button>
 
-            <NavItem>
-                <NavLink to='/' className='Link'>
-                    <h4>
-                        Home
-                    </h4>
-                </NavLink>
-            </NavItem>
-            <NavItem>
-                <NavLink>
-                    <CartWidget/>
-                </NavLink>
-            </NavItem>
-            <div className='categorias'>
-                 Filtrar por : 
-                 <NavLink to='/item/1' className={'Link'}> <button>Para Familias </button>  </NavLink>
-                 <NavLink to='/item/2' className={'Link'}> <button>Para Parejas </button>  </NavLink>
-            </div>
-        </Nav>
-    )
+        <Button variant="dark" style={{marginRight:"10px"}}>
+        <NavLink to='/categoria/Familiar' className='Link1'>Para Familias</NavLink>
+        </Button>
+
+        <Button variant='dark'>
+        <NavLink to='/categoria/Parejas' className={'Link1'}>Para Parejas</NavLink>
+        </Button>
+          <NavLink>
+            <CartWidget/>
+          </NavLink>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
-export default NavBar
+
+export default Links;

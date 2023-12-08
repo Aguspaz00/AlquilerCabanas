@@ -1,32 +1,51 @@
 import React from "react"
 import { useState,useEffect } from "react"
-import { getProducts } from "./async"
 import ItemList from "./ItemList"
 import {useParams} from 'react-router-dom'
+import {
+    collection,
+    getDoc,
+    getDocs,
+    getFirestore,
+    query,
+    where,
+} from "firebase/firestore";
 
 
 
-const ItemsListContainer = ({saludo}) => {
-    const [products, setProducts] = useState ([])
 
-    const { categoriaId } = useParams()
+export const ItemsListContainer = ({saludo}) => {
+
+    const [data, setData] = useState ([]);
+    const { categoriaId } = useParams();
 
     useEffect(()=> {
-        const asyncFunc = categoriaId ? getProductsCategoria : getProducts
-
-        asyncFunc(categoriaId)
-        .then(response => {
-            setProducts(response)
-        })
-        .catch(error => {
-            console.error(error)
-        })
+        const querydb = getFirestore();
+        const queryCollection = collection(querydb, "productos");
+        if (categoriaId){
+            const queryFilter = query(
+                queryCollection,
+                where("categoria", "==", categoriaId)
+            );
+            getDocs(queryFilter).then((res) => 
+            setData(
+                res.docs.map((product) => ({ id: product.id, ...product.data() })),
+                ),
+            );
+        }else{
+            getDocs(queryCollection).then((res) => 
+            setData(
+                res.docs.map((product) => ({ id: product.id, ...product.data() })),
+                ),
+            );
+        }
     }, [categoriaId])
-
+    
     return (
         <div className="background">
-            {saludo}
-            <ItemList products={products}/>
+            {saludo} 
+            <ItemList data={data}/>
+            
         </div>
     )
 }
