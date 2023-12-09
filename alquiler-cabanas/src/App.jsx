@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const getData =()=> {
-    return new Promise((resolve, reject)=> {
+    return new Promise(()=> {
       setTimeout(()=> {
         setLoading(false);
     }, 2000);
