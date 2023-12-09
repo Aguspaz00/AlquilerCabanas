@@ -1,17 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import Routing from './components/Routing'
-import {doc, getDoc, getFirestore} from "firebase/firestore";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Loading from './components/Loading'
 
 
 function App() {
-  return (
+  const [loading, setLoading] = useState(true);
+
+  const getData =()=> {
+    return new Promise((resolve, reject)=> {
+      setTimeout(()=> {
+        setLoading(false);
+    }, 2000);
+    })
+  }
+  useEffect(()=> {
+    getData()
+    .then(res => {
+      setLoading(false);
+    })
+  }, []); 
+  
+  if(loading){
+    return(
+      <Loading/>
+    )
+  }
+  else{
+      return (
     <div>
       <Routing/>
-      {/* <ItemCount initial ={1} stock={10} onAdd={(quantity) => console.log('Cantida agregada', quantity)}/> */}
     </div>
+    );
+  }
 
-  )
 }
 
 export default App
